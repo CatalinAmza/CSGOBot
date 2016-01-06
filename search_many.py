@@ -58,21 +58,35 @@ def no_conflicts(errors, subject):                                              
 
 
 def sift_weapons(url, pl):
-    source = pl.rload(url).replace("StatTrak\\u2122", "StatTrak™")
+    source = pl.rload(url).replace("StatTrak\\u2122", "StatTrak™").replace('\\u2605', '★')
     weapons = get_all_cores(source, render_wls, render_wrs, 1100)
     prices = get_all_cores(source, render_pls, render_prs)
     for i in range(len(weapons)):
         if weapons[i] in targets.keys():
             if float(prices[i]) < targets[weapons[i]]:
                 webbrowser.open(market_template_link + weapons[i])
-            elif (float(prices[i]) - targets[weapons[i]]) / float(prices[i]) < 0.02:
+            elif ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
                 qprint(weapons[i] + ' is at ' + prices[i] + ' (only %f more than target).' % ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])))
 
 
-names = ['m4a1']
-targets = {"M4A4 | X-Ray (Factory New)": 6.2}
+def create_url(name):
+    res = render_search.replace('item', name)
+    for wear in render_wears[name]:
+        res += wear
+    return res.strip('&')
+
+names = render_names[1:]
+
+targets = {}
+for name in names:
+    file = open(name + '.dol', 'r')                                                  # cause dolla-dolla :o
+    for line in file:
+        [weapon, price] = line.strip().split(':')
+        price = int(price)
+        targets[weapon.replace('â˜…', '★').replace('â„¢', '™')] = price
+
 pl = PageLoader()
 
 while 1:
     for name in names:
-        sift_weapons(render_search.replace('item', name), pl)
+        sift_weapons(create_url(name), pl)
