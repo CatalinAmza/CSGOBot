@@ -13,8 +13,10 @@ FT = 'category_730_Exterior[]=tag_WearCategory2&'
 WW = 'category_730_Exterior[]=tag_WearCategory3&'
 BS = 'category_730_Exterior[]=tag_WearCategory4&'
 Nilla = 'category_730_Exterior[]=tag_WearCategoryNA&'
-render_names = ['m4a1', 'knife_m9_bayonet']
-render_wears = {'knife_m9_bayonet': [FN, MW, FT, BS, Nilla]}
+render_names = ['m4a1', 'knife_m9_bayonet', 'bayonet', 'ak47']
+render_wears = {'knife_m9_bayonet': [FN, MW, FT, BS, Nilla],
+                'bayonet': [FN, MW, Nilla],
+                'ak47': [FN, MW, BS]}
 render_pls = "\"normal_price\\\">$"                             # render price left shell
 render_prs = " USD<\\/span>"                                    # render price right shell
 render_wls = ";\\\">"                                           # render weapon left shell
