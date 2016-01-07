@@ -3,7 +3,10 @@ import webbrowser
 import time
 import requests
 from tools.capsule import *
+import winsound
 
+Freq = 800
+Dur = 200                                                                          # 0.2 seconds seems more than enough
 
 class PageLoader:
     def __init__(self, wait_for_timeout=True, session=None):
@@ -64,26 +67,33 @@ def sift_weapons(url, pl):
     for i in range(len(weapons)):
         if weapons[i] in targets.keys():
             if float(prices[i]) <= targets[weapons[i]]:
+                winsound.Beep(Freq,Dur)
                 webbrowser.open(market_template_link + weapons[i])
-            elif ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
+            if ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
                 qprint(weapons[i] + ' is at ' + prices[i] + ' (only %f more than target).' % ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])))
 
 
 def create_url(name):
-    res = render_search.replace('item', name)
+    if name in pack.keys():
+        res = render_special_search                                                  # should adapt at a later point in time
+    else:
+        res = render_search.replace('item', name)
     for wear in render_wears[name]:
         res += wear
     return res.strip('&')
 
-names = render_names[1:]
+names = ['bayonets']
 
 targets = {}
 for name in names:
-    file = open(name + '.dol', 'r')                                                  # cause dolla-dolla :o
-    for line in file:
-        [weapon, price] = line.strip().split(':')
-        price = float(price)
-        targets[weapon.replace('â˜…', '★').replace('â„¢', '™')] = price
+    if name not in pack.keys():                                                      # so that we can deal with 'bayonets' (comprising regular bayos and m9s)
+        pack[name] = [name]
+    for weapon_name in pack[name]:
+        file = open(weapon_name + '.dol', 'r')                                       # cause dolla-dolla :o
+        for line in file:
+            [weapon, price] = line.strip().split(':')
+            price = float(price)
+            targets[weapon.replace('â˜…', '★').replace('â„¢', '™')] = price
 
 pl = PageLoader()
 
