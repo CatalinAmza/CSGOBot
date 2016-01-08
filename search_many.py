@@ -12,6 +12,7 @@ class PageLoader:
     def __init__(self, wait_for_timeout=True, session=None):
         self.wft = wait_for_timeout
         self.dmgctrl = 0                                                             # when loading the page takes too much, subtract that time for the timeout
+        self.input_req = False                                                       # in case i opened a browser window i need to stop spamming the market
         if self.wft:
             qprint('Between page loads we\'ll be waiting %d seconds to comply with Steam Market.' % render_timeout)
         if session:
@@ -22,6 +23,9 @@ class PageLoader:
     def load_backbone(self, url):
         if self.wft:
             time.sleep(render_timeout - self.dmgctrl)
+        if self.input_req:
+            time.sleep(45)
+            self.input_req = False
         try:
             s_now = time.time()
             source = self.session.get(url).content.decode()                          # page source as a string
@@ -73,11 +77,12 @@ def sift_weapons(url, pl):
                 winsound.Beep(Freq,Dur)
                 webbrowser.open(market_template_link + weapons[i])
             if ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
+                pl.input_req = True
                 qprint(weapons[i] + ' is at ' + prices[i] + ' (only %f more than target).' % ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])))
 
 
 def create_url(name):
-    if len(pack[name]) > 1:
+    if len(packs[name]) > 1:
         res = urls[name]                                                             # should adapt at a later point in time
     else:
         res = render_search.replace('item', name)
@@ -85,13 +90,13 @@ def create_url(name):
         res += wear
     return res.strip('&')
 
-names = ['guns']
+names = ['knives']
 
 targets = {}
 for name in names:
-    if name not in pack.keys():                                                      # so that we can deal with 'bayonets' (comprising regular bayos and m9s)
-        pack[name] = [name]
-    for weapon_name in pack[name]:
+    if name not in packs.keys():                                                      # so that we can deal with 'bayonets' (comprising regular bayos and m9s)
+        packs[name] = [name]
+    for weapon_name in packs[name]:
         file = open('./dols/' + weapon_name + '.dol', 'r')                                       # cause dolla-dolla :o
         for line in file:
             [weapon, price] = line.strip().split(':')

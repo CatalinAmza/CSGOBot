@@ -16,6 +16,15 @@ render_bayonets = 'http://steamcommunity.com/market/search/render/?' \
                         'sort_dir=asc&' \
                         'category_730_Weapon[]=any&' \
                         'currency=3&'
+render_knives = 'http://steamcommunity.com/market/search/render/?' \
+                'query=knife NOT \"Safari Mesh\" NOT \"Stained\" NOT \"Urban Masked\" NOT \"Boreal Forest\" NOT \"Forest DDPAT\" NOT \"Scorched\" NOT \"Damascus Steel\" NOT \"Flip Knife\" ' \
+                'NOT \"Falchion Knife\" NOT \"Gut Knife\" NOT \"| Fade (Minimal Wear)\" NOT \"| Blue Steel (Factory New)\" NOT \"| Case Hardened (Factory New)\"&' \
+                'start=0&' \
+                'count=100&' \
+                'sort_column=price&' \
+                'sort_dir=asc&' \
+                'category_730_Weapon[]=any&' \
+                'category_730_Type[]=tag_CSGO_Type_Knife&'
 render_guns = 'http://steamcommunity.com/market/search/render/?' \
               'query=Exterior NOT \"USP-S\" NOT \"FAMAS\" NOT \"AUG\" NOT \"Tec-9\" NOT \"Galil\" NOT \"CZ75-Auto\" NOT \"SG 553\" NOT \"P2000\" NOT \"Five-SeveN\" ' \
                     'NOT \"Dual Berettas\" NOT \"SCAR-20\" NOT \"SSG 08\" NOT \"G3SG1\" NOT \"R8 Revolver\" NOT \"(Dragon King)\" NOT \"Catacombs\" NOT \"Bunsen Burner\" ' \
@@ -45,16 +54,19 @@ FT = 'category_730_Exterior[]=tag_WearCategory2&'
 WW = 'category_730_Exterior[]=tag_WearCategory3&'
 BS = 'category_730_Exterior[]=tag_WearCategory4&'
 Nilla = 'category_730_Exterior[]=tag_WearCategoryNA&'
-render_names = ['m4a1', 'knife_m9_bayonet', 'bayonets', 'ak47', 'bayonet', 'p250', 'glock', 'awp', 'm4a1_silencer']
+render_names = ['m4a1', 'knife_m9_bayonet', 'bayonets', 'ak47', 'bayonet', 'p250', 'glock', 'awp', 'm4a1_silencer', 'knives', 'knife_tactical', 'knife_butterfly', 'knife_karambit', 'knife_push']
 render_wears = {'knife_m9_bayonet': [FN, MW, FT, BS, Nilla],
                 'bayonet': [FN, MW, Nilla],
                 'ak47': [FN, MW, BS],
                 'bayonets': [FN, MW, BS, Nilla],
-                'guns': [FN, MW]}
-pack = {'bayonets': ['knife_m9_bayonet', 'bayonet'],
-        'guns': ['glock', 'p250', 'ak47', 'awp', 'm4a1_silencer', 'm4a1']}
+                'guns': [FN, MW],
+                'knives': [FN, MW, Nilla]}
+packs = {'bayonets': ['knife_m9_bayonet', 'bayonet'],
+        'guns': ['glock', 'p250', 'ak47', 'awp', 'm4a1_silencer', 'm4a1'],
+        'knives': ['knife_m9_bayonet', 'bayonet', 'knife_tactical', 'knife_butterfly', 'knife_karambit', 'knife_push']}
 urls = {'bayonets': render_bayonets,
-        'guns': render_guns}
+        'guns': render_guns,
+        'knives': render_knives}
 render_pls = "\"normal_price\\\">$"                             # render price left shell
 render_prs = " USD<\\/span>"                                    # render price right shell
 render_wls = ";\\\">"                                           # render weapon left shell
