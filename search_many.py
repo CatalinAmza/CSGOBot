@@ -6,11 +6,12 @@ from tools.capsule import *
 import winsound
 
 Freq = 800
-Dur = 200                                                                          # 0.2 seconds seems more than enough
+Dur = 200                                                                            # 0.2 seconds seems more than enough
 
 class PageLoader:
     def __init__(self, wait_for_timeout=True, session=None):
         self.wft = wait_for_timeout
+        self.dmgctrl = 0                                                             # when loading the page takes too much, subtract that time for the timeout
         if self.wft:
             qprint('Between page loads we\'ll be waiting %d seconds to comply with Steam Market.' % render_timeout)
         if session:
@@ -20,10 +21,12 @@ class PageLoader:
 
     def load_backbone(self, url):
         if self.wft:
-            time.sleep(render_timeout)
+            time.sleep(render_timeout - self.dmgctrl)
         try:
+            s_now = time.time()
             source = self.session.get(url).content.decode()                          # page source as a string
             if len(source) > 10 and no_conflicts(load_errors, source):
+                self.dmgctrl = int(time.time() - s_now)
                 return source
             raise Exception()
         except:
@@ -74,15 +77,15 @@ def sift_weapons(url, pl):
 
 
 def create_url(name):
-    if name in pack.keys():
-        res = render_special_search                                                  # should adapt at a later point in time
+    if len(pack[name]) > 1:
+        res = urls[name]                                                             # should adapt at a later point in time
     else:
         res = render_search.replace('item', name)
     for wear in render_wears[name]:
         res += wear
     return res.strip('&')
 
-names = ['bayonets']
+names = ['guns']
 
 targets = {}
 for name in names:
