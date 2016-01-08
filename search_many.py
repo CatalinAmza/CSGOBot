@@ -92,7 +92,7 @@ for name in names:
     if name not in pack.keys():                                                      # so that we can deal with 'bayonets' (comprising regular bayos and m9s)
         pack[name] = [name]
     for weapon_name in pack[name]:
-        file = open(weapon_name + '.dol', 'r')                                       # cause dolla-dolla :o
+        file = open('./dols/' + weapon_name + '.dol', 'r')                                       # cause dolla-dolla :o
         for line in file:
             [weapon, price] = line.strip().split(':')
             price = float(price)
