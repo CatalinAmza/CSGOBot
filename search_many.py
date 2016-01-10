@@ -76,14 +76,15 @@ def sift_weapons(url, pl):
             if float(prices[i]) <= targets[weapons[i]]:
                 winsound.Beep(Freq,Dur)
                 webbrowser.open(market_template_link + weapons[i])
-            if ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
+                qprint(weapons[i] + ' is at ' + prices[i] + ' (%f less than target).' % ((targets[weapons[i]]-float(prices[i])) / float(prices[i])))
+            elif ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
                 pl.input_req = True
                 qprint(weapons[i] + ' is at ' + prices[i] + ' (only %f more than target).' % ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])))
 
 
 def create_url(name):
     if len(packs[name]) > 1:
-        res = urls[name]                                                             # should adapt at a later point in time
+        res = urls[name]
     else:
         res = render_search.replace('item', name)
     for wear in render_wears[name]:
@@ -94,10 +95,10 @@ names = ['knives']
 
 targets = {}
 for name in names:
-    if name not in packs.keys():                                                      # so that we can deal with 'bayonets' (comprising regular bayos and m9s)
+    if name not in packs.keys():                                                     # oh well..
         packs[name] = [name]
     for weapon_name in packs[name]:
-        file = open('./dols/' + weapon_name + '.dol', 'r')                                       # cause dolla-dolla :o
+        file = open('./dols/' + weapon_name + '.dol', 'r')                           # cause dolla-dolla :o
         for line in file:
             [weapon, price] = line.strip().split(':')
             price = float(price)
