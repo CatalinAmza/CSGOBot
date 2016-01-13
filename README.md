@@ -1,4 +1,7 @@
 # CSGOBot
+
+NVM, no more botting ;o
+
 Steps to get it working:
 
 1. Install requests: http://docs.python-requests.org/en/latest/user/install/#install
