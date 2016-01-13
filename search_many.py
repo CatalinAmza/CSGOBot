@@ -3,7 +3,7 @@ import webbrowser
 import time
 import requests
 from tools.capsule import *
-import winsound
+#import winsound
 
 Freq = 800
 Dur = 200                                                                            # 0.2 seconds seems more than enough
@@ -74,7 +74,7 @@ def sift_weapons(url, pl):
     for i in range(len(weapons)):
         if weapons[i] in targets.keys():
             if float(prices[i]) <= targets[weapons[i]]:
-                winsound.Beep(Freq,Dur)
+ #               winsound.Beep(Freq,Dur)
                 webbrowser.open(market_template_link + weapons[i])
                 qprint(weapons[i] + ' is at ' + prices[i] + ' (%f less than target).' % ((targets[weapons[i]]-float(prices[i])) / float(prices[i])))
             elif ((float(prices[i]) - targets[weapons[i]]) / float(prices[i])) < 0.02:
